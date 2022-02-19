@@ -2,11 +2,11 @@
   "name": "memorykit",
   "version": "0.1.0",
   "description": "A cross-platform JavaScript native library for wrangling virtual memory",
-  "main": "dist/binding.js",
+  "main": "dist/lib/binding.js",
   "scripts": {
     "install": "node-gyp-build",
     "build": "tsc && prebuildify --napi",
-    "test": "node dist/test/index.js"
+    "test": "sudo node dist/test/index.js"
   },
   "repository": {
     "type": "git",

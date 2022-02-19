@@ -16,6 +16,13 @@ function checkSupportedOS() {
 
 function getProcesses(): BasicProcessInfo[] {
   checkSupportedOS();
+  if (['darwin', 'linux'].includes(os.platform())) {
+    if (process.getuid() !== 0) {
+      throw new Error(
+        `MemoryKit needs root in order to work on ${os.platform()}`
+      );
+    }
+  }
   return addon.getProcesses();
 }
 
@@ -36,5 +43,5 @@ class Process {
 export default {
   getProcesses,
   Process,
-  MEMORY_TYPE
+  MEMORY_TYPE,
 };
