@@ -6,7 +6,9 @@
   "scripts": {
     "install": "node-gyp-build",
     "build": "tsc && prebuildify --napi",
-    "test": "sudo node dist/test/index.js"
+    "test": "run-script-os",
+    "test:win32": "node dist/test/index.js",
+    "test:default": "sudo node dist/test/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,8 @@
   },
   "dependencies": {
     "node-addon-api": "^4.3.0",
-    "node-gyp-build": "^4.3.0"
+    "node-gyp-build": "^4.3.0",
+    "run-script-os": "^1.1.6"
   },
   "peerDependencies": {
     "node-gyp": "^8.4.1",

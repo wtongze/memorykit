@@ -49,6 +49,14 @@
               "src/common/darwin.cpp"
             ]
           }
+        ],
+        [
+          "OS==\"win\"",
+          {
+            "sources": [
+              "src/common/windows.cpp"
+            ]
+          }
         ]
       ]
     }
