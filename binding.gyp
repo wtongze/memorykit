@@ -2,6 +2,9 @@
   "targets": [
     {
       "target_name": "memorykit-native",
+      "sources": [
+        "src/memorykit.cpp"
+      ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
       ],
@@ -20,9 +23,10 @@
         "NAPI_CPP_EXCEPTIONS"
       ],
       "xcode_settings": {
-        "GCC_ENABLE_CPP_EXCEPTIONS": "YES",
         "CLANG_CXX_LIBRARY": "libc++",
-        "MACOSX_DEPLOYMENT_TARGET": "10.7"
+        "MACOSX_DEPLOYMENT_TARGET": "10.7",
+        "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+        "OTHER_CPLUSPLUSFLAGS": ["-fexceptions"]
       },
       "msvs_settings": {
         "VCCLCompilerTool": {
@@ -34,8 +38,15 @@
           "OS==\"linux\"",
           {
             "sources": [
-              "src/memorykit.cpp",
               "src/common/linux.cpp"
+            ]
+          }
+        ],
+        [
+          "OS==\"mac\"",
+          {
+            "sources": [
+              "src/common/darwin.cpp"
             ]
           }
         ]
