@@ -5,7 +5,8 @@
   "main": "dist/binding.js",
   "scripts": {
     "install": "node-gyp-build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && prebuildify --napi",
+    "test": "node dist/test/index.js"
   },
   "repository": {
     "type": "git",
