@@ -45,8 +45,8 @@ Napi::Array getProcesses(const Napi::CallbackInfo& info) {
 
         Napi::Object obj = Napi::Object::New(env);
         obj.Set("pid", Napi::Number::New(env, pid));
-        obj.Set("ppid", ppid == -1 ? env.Null() : Napi::Number::New(env, ppid));
-        obj.Set("name", comm == "" ? env.Null() : Napi::String::New(env, comm));
+        obj.Set("ppid", ppid == -1 ? env.Undefined() : Napi::Number::New(env, ppid));
+        obj.Set("name", comm.empty() ? env.Undefined() : Napi::String::New(env, comm));
         processes.Set(index, obj);
         index++;
       }

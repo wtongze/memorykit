@@ -3,7 +3,8 @@
     {
       "target_name": "memorykit-native",
       "sources": [
-        "src/memorykit.cpp"
+        "src/memorykit.cpp",
+        "src/process/common.cpp"
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")"
@@ -38,7 +39,8 @@
           "OS==\"linux\"",
           {
             "sources": [
-              "src/common/linux.cpp"
+              "src/common/linux.cpp",
+              "src/process/linux.cpp"
             ]
           }
         ],

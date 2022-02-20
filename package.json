@@ -2,13 +2,14 @@
   "name": "memorykit",
   "version": "0.1.0",
   "description": "A cross-platform JavaScript native library for wrangling virtual memory",
-  "main": "dist/lib/binding.js",
+  "main": "lib/binding.js",
   "scripts": {
     "install": "node-gyp-build",
-    "build": "tsc && prebuildify --napi",
+    "build": "prebuildify --napi",
     "test": "run-script-os",
     "test:win32": "node dist/test/index.js",
-    "test:default": "sudo node dist/test/index.js"
+    "test:default": "sudo node dist/test/index.js",
+    "doc": "jsdoc -c jsdoc.js"
   },
   "repository": {
     "type": "git",
@@ -25,7 +26,10 @@
   },
   "homepage": "https://github.com/wtongze/memorykit#readme",
   "devDependencies": {
+    "@types/chai": "^4.3.0",
     "@types/node": "^17.0.18",
+    "chai": "^4.3.6",
+    "mocha": "^9.2.1",
     "typescript": "^4.5.5"
   },
   "dependencies": {
@@ -37,5 +41,6 @@
     "node-gyp": "^8.4.1",
     "prebuildify": "^5.0.0"
   },
-  "gypfile": true
+  "gypfile": true,
+  "types": "./types"
 }

@@ -1,12 +1,10 @@
 {
+  "include": ["lib/**/*"],
   "compilerOptions": {
+    "allowJs": true,
     "declaration": true,
-    "lib": [ "esnext" ],
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDirs": ["./lib", "./test"],
-    "strict": true,
-    "target": "es6",
-    "esModuleInterop": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": "./types",
   }
 }
