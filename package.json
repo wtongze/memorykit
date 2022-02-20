@@ -8,7 +8,7 @@
     "build": "prebuildify --napi",
     "test": "run-script-os",
     "test:win32": "node dist/test/index.js",
-    "test:default": "sudo node dist/test/index.js",
+    "test:default": "sudo node_modules/.bin/mocha",
     "doc": "jsdoc -c jsdoc.js"
   },
   "repository": {

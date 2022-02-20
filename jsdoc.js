@@ -7,5 +7,6 @@ module.exports = {
   },
   opts: {
     destination: './doc',
+    readme: 'README.md',
   },
 };

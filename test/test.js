@@ -2,10 +2,9 @@ const memorykit = require('../lib/binding');
 const assert = require('chai').assert;
 const { test } = require('mocha');
 
-console.log(memorykit);
-
-test('', () => {
-  assert.equal;
+test('Return list of processes', () => {
+  const list = memorykit.getProcesses();
+  assert.isAbove(list.length, 0);
 });
 
 // const code = new memorykit.Process(12689);
