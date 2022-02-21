@@ -1,6 +1,11 @@
 {
   "targets": [
     {
+      "target_name": "test",
+      'type': 'executable',
+      "sources": ["src/test.cpp"],
+    },
+    {
       "target_name": "memorykit-native",
       "sources": [
         "src/memorykit.cpp",
@@ -18,7 +23,8 @@
       ],
       "cflags_cc": [
         "-std=c++20",
-        "-fexceptions"
+        "-fexceptions",
+        "-g"
       ],
       "defines": [
         "NAPI_CPP_EXCEPTIONS"

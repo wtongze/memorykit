@@ -5,7 +5,7 @@ Napi::Object Process::Init(Napi::Env env, Napi::Object exports) {
       DefineClass(env, "Process",
                   {
                       InstanceMethod("getBaseAddr", &Process::GetBaseAddr),
-                      //  InstanceMethod("readMemory", &Process::ReadMemory),
+                      InstanceMethod("readMemory", &Process::ReadMemory),
                       //  InstanceMethod("writeMemory", &Process::WriteMemory)
                   });
 
