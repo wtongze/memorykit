@@ -17,14 +17,9 @@
       "dependencies": [
         "<!(node -p \"require('node-addon-api').gyp\")"
       ],
-      "cflags": [
-        "-std=c17",
-        "-fexceptions"
-      ],
       "cflags_cc": [
         "-std=c++2a",
         "-fexceptions",
-        "-g"
       ],
       "defines": [
         "NAPI_CPP_EXCEPTIONS"
