@@ -50,12 +50,14 @@ describe('class Process', function () {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
-        testProc.kill();
-        if (content[1] == proc.readMemory(BigInt(content[0]), 'INT')) {
+        const target = parseInt(content[1]);
+        const value = proc.readMemory(BigInt(content[0]), 'INT');
+        if (target === value) {
           done();
         } else {
           done(new Error("Value doesn't match"));
         }
+        testProc.kill();
       });
     } else {
       done(new Error('Fail to spawn test program'));

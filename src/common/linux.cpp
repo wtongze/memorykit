@@ -51,7 +51,7 @@ Napi::Array getProcesses(const Napi::CallbackInfo& info) {
       }
     }
   } catch (std::exception& e) {
-    Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
+    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
   }
   return processes;
 }
