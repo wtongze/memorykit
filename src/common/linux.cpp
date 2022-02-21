@@ -24,24 +24,19 @@ Napi::Array getProcesses(const Napi::CallbackInfo& info) {
           std::string comm;
 
           std::string itemPath{item.path()};
-
           std::ifstream commFile{itemPath + "/comm"};
           commFile >> comm;
 
           std::ifstream stat{itemPath + "/stat"};
 
-          std::string rawArgs;
-          std::getline(stat, rawArgs);
-          std::vector<std::string> args;
+          std::string rawPPID;
+          std::getline(stat, rawPPID);
 
-          size_t pos = 0;
-          while ((pos = rawArgs.find(' ')) != std::string::npos) {
-            args.push_back(rawArgs.substr(0, pos));
-            rawArgs.erase(0, pos + 1);
-          }
-          try {
-            ppid = std::stoi(args[3]);
-          } catch (std::exception& e) {
+          if (size_t index = rawPPID.find_last_of(')');
+              index != std::string::npos) {
+            rawPPID = rawPPID.substr(index + 4, rawPPID.size());
+            rawPPID = rawPPID.substr(0, rawPPID.find(' '));
+            ppid = std::stoi(rawPPID);
           }
 
           Napi::Object obj = Napi::Object::New(env);
