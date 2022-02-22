@@ -5,8 +5,8 @@ Napi::Object Process::Init(Napi::Env env, Napi::Object exports) {
       DefineClass(env, "Process",
                   {
                       InstanceMethod("getBaseAddr", &Process::GetBaseAddr),
-                      InstanceMethod("readMemory", &Process::ReadMemory),
-                      //  InstanceMethod("writeMemory", &Process::WriteMemory)
+                      InstanceMethod("readInt", &Process::ReadInt),
+                      InstanceMethod("writeInt", &Process::WriteInt),
                   });
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();

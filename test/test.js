@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const spawn = require('child_process').spawn;
 const process = require('process');
 
-describe('getProcesses()', function () {
+describe('getProcesses', function () {
   it('Exports such function', function () {
     assert.exists(memorykit.getProcesses);
   });
@@ -13,7 +13,7 @@ describe('getProcesses()', function () {
   });
 });
 
-describe('class Process', function () {
+describe('Process', function () {
   it('Exports such class', function () {
     assert.exists(memorykit.Process);
   });
@@ -36,28 +36,61 @@ describe('class Process', function () {
   });
 
   const proc = new memorykit.Process(process.pid);
-  it('Has getBaseAddr()', function () {
+  it('Has getBaseAddr', function () {
     assert.exists(proc.baseAddr);
   });
 
   it('baseAddr has type BigInt', function () {
     assert.isTrue(typeof proc.baseAddr === 'bigint');
   });
+});
 
-  it('Able to read int', function (done) {
+describe('Process.readInt', function () {
+  it('Able to read', function (done) {
     const testProc = spawn('./build/Release/test');
     if (testProc.pid) {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
+        const addr = BigInt(content[0]);
         const target = parseInt(content[1]);
-        const value = proc.readMemory(BigInt(content[0]), 'INT');
+
+        const value = proc.readInt(addr);
+        testProc.kill();
+
         if (target === value) {
           done();
         } else {
           done(new Error("Value doesn't match"));
         }
-        testProc.kill();
+      });
+    } else {
+      done(new Error('Fail to spawn test program'));
+    }
+  });
+  it('Able to write', function (done) {
+    const testProc = spawn('./build/Release/test');
+    if (testProc.pid) {
+      let proc = new memorykit.Process(testProc.pid);
+      let ready = false;
+      testProc.stdout.on('data', function (e) {
+        const content = e.toString().split(' ');
+        const addr = BigInt(content[0]);
+        if (!ready) {
+          setTimeout(() => {
+            proc.writeInt(addr, -1);
+          }, 50);
+          ready = true;
+        } else {
+          const curr = parseInt(content[1]);
+          const target = 0;
+          testProc.kill();
+          if (curr === target) {
+            done();
+          } else {
+            done(new Error("Value doesn't match"));
+          }
+        }
       });
     } else {
       done(new Error('Fail to spawn test program'));
