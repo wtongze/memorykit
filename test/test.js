@@ -79,7 +79,7 @@ describe('Process.readInt', function () {
         if (!ready) {
           setTimeout(() => {
             proc.writeInt(addr, -1);
-          }, 50);
+          }, 25);
           ready = true;
         } else {
           const curr = parseInt(content[1]);

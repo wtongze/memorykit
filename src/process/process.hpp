@@ -8,12 +8,14 @@ class Process : public Napi::ObjectWrap<Process> {
   Process(const Napi::CallbackInfo& info);
 
   Napi::Value GetBaseAddr(const Napi::CallbackInfo& info);
-  Napi::Value ReadInt(const Napi::CallbackInfo& info);
-  void WriteInt(const Napi::CallbackInfo& info);
+  Napi::Value ReadMemory(const Napi::CallbackInfo& info);
+  void WriteMemory(const Napi::CallbackInfo& info);
 
  private:
-  size_t ReadMemory(void* addr, char* space, size_t len);
-  size_t WriteMemory(void* addr, char* space, size_t len);
+  template <typename T>
+  T Read(uint64_t addr);
+  template <typename T>
+  void Write(uint64_t addr, T val);
 
   int handle;
   pid_t pid;
