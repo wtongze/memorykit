@@ -57,7 +57,6 @@ describe('Process.readInt', function () {
 
         const value = proc.readInt(addr);
         testProc.kill();
-
         if (target === value) {
           done();
         } else {
@@ -73,19 +72,17 @@ describe('Process.readInt', function () {
     if (testProc.pid) {
       let proc = new memorykit.Process(testProc.pid);
       let ready = false;
+      const target = -1;
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
         const addr = BigInt(content[0]);
         if (!ready) {
-          setTimeout(() => {
-            proc.writeInt(addr, -1);
-          }, 25);
+          proc.writeInt(addr, target);
           ready = true;
         } else {
           const curr = parseInt(content[1]);
-          const target = 0;
           testProc.kill();
-          if (curr === target) {
+          if (curr - 1 === target) {
             done();
           } else {
             done(new Error("Value doesn't match"));

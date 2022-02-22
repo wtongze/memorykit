@@ -109,7 +109,7 @@ void Process::Write(uint64_t addr, T val) {
   size_t writeLen = process_vm_writev(this->pid, local, 1, remote, 1, 0);
 
   if (len != writeLen) {
-    throw std::runtime_error("Read length mismatch");
+    throw std::runtime_error("Write length mismatch");
   }
 }
 

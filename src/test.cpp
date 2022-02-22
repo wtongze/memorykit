@@ -5,7 +5,7 @@
 
 int main() {
   int val = std::rand() % 100;
-  std::chrono::milliseconds delay{50};
+  std::chrono::milliseconds delay{20};
   while (1) {
     std::cout << &val << " " << val << std::endl;
     std::this_thread::sleep_for(delay);
