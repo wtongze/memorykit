@@ -22,7 +22,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
 template <typename T>
 T Process::Read(uint64_t addr) {
   size_t len = sizeof(T);
-  char output[len];
+  uint8_t output[len];
 
   struct iovec local[1];
   struct iovec remote[1];
@@ -37,7 +37,7 @@ T Process::Read(uint64_t addr) {
   if (std::endian::native == std::endian::little) {
     for (size_t i = 0; i < readLen / 2; i++) {
       size_t j = readLen - 1 - i;
-      char temp = output[i];
+      uint8_t temp = output[i];
       output[i] = output[j];
       output[j] = temp;
     }
@@ -83,7 +83,7 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
 template <typename T>
 void Process::Write(uint64_t addr, T val) {
   size_t len = sizeof(T);
-  char output[len];
+  uint8_t output[len];
 
   for (size_t i = 0; i < len; i++) {
     output[i] = val >> (len - 1 - i) * 8;
@@ -92,7 +92,7 @@ void Process::Write(uint64_t addr, T val) {
   if (std::endian::native == std::endian::little) {
     for (size_t i = 0; i < len / 2; i++) {
       size_t j = len - 1 - i;
-      char temp = output[i];
+      uint8_t temp = output[i];
       output[i] = output[j];
       output[j] = temp;
     }
