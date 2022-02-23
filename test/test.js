@@ -94,3 +94,28 @@ describe('Process.readInt', function () {
     }
   });
 });
+
+describe('Process.readString', function () {
+  it('Able to read', function (done) {
+    const testProc = spawn('./build/Release/test');
+    if (testProc.pid) {
+      let proc = new memorykit.Process(testProc.pid);
+      testProc.stdout.on('data', function (e) {
+        const content = e.toString().split(' ');
+        const addr = BigInt(content[2]);
+        const target = content[3];
+
+        const value = proc.readString(addr);
+        testProc.kill();
+        if (target === value) {
+          done();
+        } else {
+          console.log(target, value);
+          done(new Error("Value doesn't match"));
+        }
+      });
+    } else {
+      done(new Error('Fail to spawn test program'));
+    }
+  });
+});
