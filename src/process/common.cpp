@@ -55,7 +55,7 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
     if (type == "BYTE") {
       return Napi::Number::New(env, Read<uint8_t>(addr));
     } else if (type == "INT") {
-      return Napi::Number::New(env, Read<int>(addr));
+      return Napi::Number::New(env, this->Read<int>(addr));
     } else if (type == "INT32") {
       return Napi::Number::New(env, Read<int32_t>(addr));
     } else if (type == "UINT32") {
@@ -98,7 +98,7 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
           .ThrowAsJavaScriptException();
       return env.Undefined();
     }
-  } catch (std::exception e) {
+  } catch (std::exception& e) {
     Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
     return env.Undefined();
   }
@@ -122,7 +122,7 @@ void Process::WriteMemory(const Napi::CallbackInfo& info) {
       int val = info[2].As<Napi::Number>().Int32Value();
       Write<int>(addr, val);
     }
-  } catch (std::exception e) {
+  } catch (std::exception& e) {
     Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
     return;
   }
