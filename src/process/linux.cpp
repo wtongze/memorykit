@@ -19,6 +19,8 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
   return Napi::BigInt::New(env, baseAddr);
 }
 
+void Process::AquireProcess() {}
+
 void Process::Read(uint64_t addr, void* target, size_t len) {
   uint8_t output[len];
 

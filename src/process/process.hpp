@@ -7,6 +7,7 @@ class Process : public Napi::ObjectWrap<Process> {
   static Napi::Object Init(Napi::Env env, Napi::Object exports);
   Process(const Napi::CallbackInfo& info);
 
+  void AquireProcess();
   Napi::Value GetBaseAddr(const Napi::CallbackInfo& info);
   Napi::Value ReadMemory(const Napi::CallbackInfo& info);
   void WriteMemory(const Napi::CallbackInfo& info);
@@ -14,6 +15,7 @@ class Process : public Napi::ObjectWrap<Process> {
  private:
   void Read(uint64_t addr, void* target, size_t len);
   void Write(uint64_t addr, void* source, size_t len);
-  int handle;
   pid_t pid;
+  int handle = -1; // For Windows
+  unsigned int task = 0; // For MacOS
 };

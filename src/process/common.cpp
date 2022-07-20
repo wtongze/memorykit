@@ -29,8 +29,14 @@ Process::Process(const Napi::CallbackInfo& info)
   }
 
   Napi::Number value = info[0].As<Napi::Number>();
-  this->pid = value.Int32Value();
-  this->handle = -1;
+  pid = value.Int32Value();
+
+  try {
+    AquireProcess();
+  } catch (std::exception& e) {
+    Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
+    return;
+  }
 }
 
 Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {

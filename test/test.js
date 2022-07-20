@@ -3,6 +3,8 @@ const assert = require('chai').assert;
 const spawn = require('child_process').spawn;
 const process = require('process');
 
+const testProgramPath = './build/Debug/test';
+
 describe('getProcesses', function () {
   it('Exports such function', function () {
     assert.exists(memorykit.getProcesses);
@@ -47,7 +49,7 @@ describe('Process', function () {
 
 describe('Process.readInt', function () {
   it('Able to read', function (done) {
-    const testProc = spawn('./build/Release/test');
+    const testProc = spawn(testProgramPath);
     if (testProc.pid) {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
@@ -68,7 +70,7 @@ describe('Process.readInt', function () {
     }
   });
   it('Able to write', function (done) {
-    const testProc = spawn('./build/Release/test');
+    const testProc = spawn(testProgramPath);
     if (testProc.pid) {
       let proc = new memorykit.Process(testProc.pid);
       let ready = false;
@@ -97,7 +99,7 @@ describe('Process.readInt', function () {
 
 describe('Process.readString', function () {
   it('Able to read', function (done) {
-    const testProc = spawn('./build/Release/test');
+    const testProc = spawn(testProgramPath);
     if (testProc.pid) {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
