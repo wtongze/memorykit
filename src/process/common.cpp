@@ -64,7 +64,6 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
       return Napi::Number::New(env, result);
     } else if (type == "INT") {
       int result;
-      printf("%llx", addr);
       Read(addr, &result, sizeof(result));
       return Napi::Number::New(env, result);
     } else if (type == "INT32") {
@@ -148,6 +147,9 @@ void Process::WriteMemory(const Napi::CallbackInfo& info) {
     if (type == "INT") {
       int value = info[2].As<Napi::Number>().Int32Value();
       Write(addr, &value, sizeof(value));
+    } else if (type == "STRING") {
+      std::string value = info[2].As<Napi::String>().Utf8Value();
+      Write(addr, (void*)value.c_str(), value.length() + 1);
     }
   } catch (std::exception& e) {
     Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();

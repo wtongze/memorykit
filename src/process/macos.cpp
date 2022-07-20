@@ -39,12 +39,25 @@ void Process::Read(uint64_t addr, void* target, size_t len) {
   vm_offset_t output;
   kern_return_t kern_return = 0;
   mach_msg_type_number_t readLen = 0;
+
   kern_return = vm_read(task, addr, len, &output, &readLen);
+
   if (len != static_cast<size_t>(readLen)) {
     throw std::runtime_error("Read length mismatch");
   }
+
   if (kern_return != KERN_SUCCESS) {
     throw std::runtime_error("vm_read() failed");
   }
+
   memcpy(target, (void*)output, len);
+}
+
+void Process::Write(uint64_t addr, void* source, size_t len) {
+  kern_return_t kern_return = 0;
+  kern_return = vm_write(task, addr, (vm_offset_t)source, (mach_msg_type_number_t)len);
+
+  if (kern_return != KERN_SUCCESS) {
+    throw std::runtime_error("vm_write() failed");
+  }
 }

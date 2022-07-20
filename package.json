@@ -2,12 +2,13 @@
   "name": "memorykit",
   "version": "0.1.0",
   "description": "A cross-platform JavaScript native library for wrangling virtual memory",
-  "main": "lib/binding.js",
+  "main": "lib/memorykit.js",
   "scripts": {
     "install": "node-gyp-build",
     "build": "prebuildify --napi",
     "test": "run-script-os",
     "test:win32": "node dist/test/index.js",
+    "test:darwin": "sudo ./node_modules/.bin/mocha",
     "test:default": "mocha",
     "doc": "jsdoc -c jsdoc.js"
   },

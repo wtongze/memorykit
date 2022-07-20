@@ -1,4 +1,4 @@
-const memorykit = require('../lib/binding');
+const memorykit = require('../lib/memorykit');
 const assert = require('chai').assert;
 const spawn = require('child_process').spawn;
 const process = require('process');
@@ -39,6 +39,7 @@ describe('Process', function () {
 
   const proc = new memorykit.Process(process.pid);
   it('Has getBaseAddr', function () {
+    assert(proc.baseAddr > -1);
     assert.exists(proc.baseAddr);
   });
 
@@ -47,7 +48,7 @@ describe('Process', function () {
   });
 });
 
-describe('Process.readInt', function () {
+describe('INT', function () {
   it('Able to read', function (done) {
     const testProc = spawn(testProgramPath);
     if (testProc.pid) {
@@ -97,7 +98,7 @@ describe('Process.readInt', function () {
   });
 });
 
-describe('Process.readString', function () {
+describe('STRING', function () {
   it('Able to read', function (done) {
     const testProc = spawn(testProgramPath);
     if (testProc.pid) {
@@ -114,6 +115,33 @@ describe('Process.readString', function () {
         } else {
           console.log(target, value);
           done(new Error("Value doesn't match"));
+        }
+      });
+    } else {
+      done(new Error('Fail to spawn test program'));
+    }
+  });
+
+  it('Able to write', function (done) {
+    const testProc = spawn(testProgramPath);
+    if (testProc.pid) {
+      let proc = new memorykit.Process(testProc.pid);
+      let ready = false;
+      const target = 'dcba';
+      testProc.stdout.on('data', function (e) {
+        const content = e.toString().split(' ');
+        const addr = BigInt(content[2]);
+        if (!ready) {
+          proc.writeString(addr, target);
+          ready = true;
+        } else {
+          const curr = content[3];
+          testProc.kill();
+          if (curr === target) {
+            done();
+          } else {
+            done(new Error("Value doesn't match"));
+          }
         }
       });
     } else {
