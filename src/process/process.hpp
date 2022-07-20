@@ -12,11 +12,8 @@ class Process : public Napi::ObjectWrap<Process> {
   void WriteMemory(const Napi::CallbackInfo& info);
 
  private:
-  template <typename T>
-  T Read(uint64_t addr);
-  template <typename T>
-  void Write(uint64_t addr, T val);
-
+  void Read(uint64_t addr, void* target, size_t len);
+  void Write(uint64_t addr, void* source, size_t len);
   int handle;
   pid_t pid;
 };
