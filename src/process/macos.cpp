@@ -9,7 +9,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
   kern_return_t kern_return = 0;
   mach_port_t task = MACH_PORT_NULL;
 
-  kern_return = task_for_pid(mach_task_self(), this->pid, &task);
+  kern_return = task_for_pid(mach_task_self(), pid, &task);
 
   if (kern_return != KERN_SUCCESS) {
     Napi::TypeError::New(env, "task_for_pid() failed")
@@ -34,10 +34,3 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
 
   return Napi::BigInt::New(env, static_cast<uint64_t>(addr));
 }
-
-Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
-  Napi::Env env = info.Env();
-  return env.Undefined();
-}
-
-void Process::WriteMemory(const Napi::CallbackInfo& info) {}
