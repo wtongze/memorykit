@@ -34,3 +34,29 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
 
   return Napi::BigInt::New(env, static_cast<uint64_t>(addr));
 }
+
+template <typename T>
+T Process::Read(uint64_t addr) {
+  size_t len = sizeof(T);
+  uint8_t output[len];
+
+  struct iovec local[1];
+  struct iovec remote[1];
+
+  local[0].iov_base = output;
+  local[0].iov_len = len;
+  remote[0].iov_base = (void*)addr;
+  remote[0].iov_len = len;
+
+  size_t readLen = vm_read(this->pid, local, 1, remote, 1, 0);
+
+  if (len != readLen) {
+    Napi::Error::New(env, "Read length mismatch").ThrowAsJavaScriptException();
+    return;
+  }
+
+  T result;
+  memcpy(&result, &output, sizeof(result));
+
+  return result;
+}

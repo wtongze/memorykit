@@ -35,8 +35,7 @@ T Process::Read(uint64_t addr) {
   size_t readLen = process_vm_readv(this->pid, local, 1, remote, 1, 0);
 
   if (len != readLen) {
-    Napi::Error::New(env, "Read length mismatch").ThrowAsJavaScriptException();
-    return;
+    throw std::runtime_error("Read length mismatch");
   }
 
   T result;
@@ -63,7 +62,6 @@ void Process::Write(uint64_t addr, T val) {
   size_t writeLen = process_vm_writev(pid, local, 1, remote, 1, 0);
 
   if (len != writeLen) {
-    Napi::Error::New(env, "Write length mismatch").ThrowAsJavaScriptException();
-    return;
+    throw std::runtime_error("Write length mismatch");
   }
 }
