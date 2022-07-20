@@ -7,7 +7,6 @@ void Process::AquireProcess() {
   kern_return_t kern_return = 0;
 
   kern_return = task_for_pid(mach_task_self(), pid, &this->task);
-
   if (kern_return != KERN_SUCCESS) {
     throw std::runtime_error("AquireProcess failed");
   }
@@ -37,13 +36,15 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
 }
 
 void Process::Read(uint64_t addr, void* target, size_t len) {
+  vm_offset_t output;
   kern_return_t kern_return = 0;
   mach_msg_type_number_t readLen = 0;
-  kern_return = vm_read(task, addr, len, (vm_offset_t*)target, &readLen);
+  kern_return = vm_read(task, addr, len, &output, &readLen);
   if (len != static_cast<size_t>(readLen)) {
     throw std::runtime_error("Read length mismatch");
   }
   if (kern_return != KERN_SUCCESS) {
     throw std::runtime_error("vm_read() failed");
   }
+  memcpy(target, (void*)output, len);
 }

@@ -3,7 +3,7 @@ const assert = require('chai').assert;
 const spawn = require('child_process').spawn;
 const process = require('process');
 
-const testProgramPath = './build/Debug/test';
+const testProgramPath = './build/Release/test';
 
 describe('getProcesses', function () {
   it('Exports such function', function () {

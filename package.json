@@ -5,7 +5,7 @@
   "main": "lib/binding.js",
   "scripts": {
     "install": "node-gyp-build",
-    "build": "prebuildify --napi --debug",
+    "build": "prebuildify --napi",
     "test": "run-script-os",
     "test:win32": "node dist/test/index.js",
     "test:default": "mocha",

@@ -64,6 +64,7 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
       return Napi::Number::New(env, result);
     } else if (type == "INT") {
       int result;
+      printf("%llx", addr);
       Read(addr, &result, sizeof(result));
       return Napi::Number::New(env, result);
     } else if (type == "INT32") {
