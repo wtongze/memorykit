@@ -5,3 +5,4 @@ prebuilds/
 doc/
 types/
 .DS_Store
+.vscode/
