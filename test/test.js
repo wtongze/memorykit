@@ -2,8 +2,13 @@ const memorykit = require('../lib/memorykit');
 const assert = require('chai').assert;
 const spawn = require('child_process').spawn;
 const process = require('process');
+const os = require('os');
 
 const testProgramPath = './build/Release/test';
+
+function getAddr(str) {
+  return BigInt(os.platform() === 'win32' ? '0x' + str : str);
+}
 
 describe('getProcesses', function () {
   it('Exports such function', function () {
@@ -55,7 +60,7 @@ describe('INT', function () {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
-        const addr = BigInt(content[0]);
+        const addr = getAddr(content[0]);
         const target = parseInt(content[1]);
 
         const value = proc.readInt(addr);
@@ -78,7 +83,7 @@ describe('INT', function () {
       const target = -1;
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
-        const addr = BigInt(content[0]);
+        const addr = getAddr(content[0]);
         if (!ready) {
           proc.writeInt(addr, target);
           ready = true;
@@ -105,7 +110,7 @@ describe('STRING', function () {
       let proc = new memorykit.Process(testProc.pid);
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
-        const addr = BigInt(content[2]);
+        const addr = getAddr(content[2]);
         const target = content[3];
 
         const value = proc.readString(addr);
@@ -130,7 +135,7 @@ describe('STRING', function () {
       const target = 'dcba';
       testProc.stdout.on('data', function (e) {
         const content = e.toString().split(' ');
-        const addr = BigInt(content[2]);
+        const addr = getAddr(content[2]);
         if (!ready) {
           proc.writeString(addr, target);
           ready = true;

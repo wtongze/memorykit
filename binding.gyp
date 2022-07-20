@@ -58,7 +58,8 @@
           "OS==\"win\"",
           {
             "sources": [
-              "src/common/windows.cpp"
+              "src/common/windows.cpp",
+              "src/process/windows.cpp"
             ]
           }
         ]

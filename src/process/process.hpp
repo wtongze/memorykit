@@ -15,7 +15,7 @@ class Process : public Napi::ObjectWrap<Process> {
  private:
   void Read(uint64_t addr, void* target, size_t len);
   void Write(uint64_t addr, void* source, size_t len);
-  pid_t pid;
-  int handle = -1; // For Windows
+  int pid;
+  uint64_t handle = 0; // For Windows
   unsigned int task = 0; // For MacOS
 };
