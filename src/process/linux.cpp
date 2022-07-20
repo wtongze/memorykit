@@ -22,12 +22,10 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
 void Process::AquireProcess() {}
 
 void Process::Read(uint64_t addr, void* target, size_t len) {
-  uint8_t output[len];
-
   struct iovec local[1];
   struct iovec remote[1];
 
-  local[0].iov_base = output;
+  local[0].iov_base = target;
   local[0].iov_len = len;
   remote[0].iov_base = (void*)addr;
   remote[0].iov_len = len;
@@ -37,19 +35,13 @@ void Process::Read(uint64_t addr, void* target, size_t len) {
   if (len != readLen) {
     throw std::runtime_error("Read length mismatch");
   }
-
-  memcpy(target, &output, len);
 }
 
 void Process::Write(uint64_t addr, void* source, size_t len) {
-  uint8_t input[len];
-
-  memcpy(&input, source, len);
-
   struct iovec local[1];
   struct iovec remote[1];
 
-  local[0].iov_base = input;
+  local[0].iov_base = source;
   local[0].iov_len = len;
   remote[0].iov_base = (void*)addr;
   remote[0].iov_len = len;
