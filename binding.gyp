@@ -18,7 +18,7 @@
         "<!(node -p \"require('node-addon-api').gyp\")"
       ],
       "cflags_cc": [
-        "-std=c++2a",
+        "-std=c++17",
         "-fexceptions",
       ],
       "defines": [
@@ -27,7 +27,7 @@
       "xcode_settings": {
         "CLANG_CXX_LIBRARY": "libc++",
         "MACOSX_DEPLOYMENT_TARGET": "10.7",
-        "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+        "CLANG_CXX_LANGUAGE_STANDARD": "c++17",
         "OTHER_CPLUSPLUSFLAGS": ["-fexceptions"]
       },
       "msvs_settings": {
@@ -49,7 +49,7 @@
           "OS==\"mac\"",
           {
             "sources": [
-              "src/common/darwin.cpp"
+              "src/common/macos.cpp"
             ]
           }
         ],
