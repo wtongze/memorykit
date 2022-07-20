@@ -49,7 +49,8 @@
           "OS==\"mac\"",
           {
             "sources": [
-              "src/common/macos.cpp"
+              "src/common/macos.cpp",
+              "src/process/macos.cpp"
             ]
           }
         ],

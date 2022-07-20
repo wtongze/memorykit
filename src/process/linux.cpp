@@ -77,13 +77,13 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
   } else if (type == "SHORT") {
     return Napi::Number::New(env, Read<short>(addr));
   } else if (type == "LONG") {
-    return Napi::BigInt::New(env, Read<long>(addr));
+    return Napi::BigInt::New(env, static_cast<int64_t>(Read<long>(addr)));
   } else if (type == "FLOAT") {
     return Napi::Number::New(env, Read<float>(addr));
   } else if (type == "DOUBLE") {
     return Napi::Number::New(env, Read<double>(addr));
   } else if (type == "POINTER") {
-    return Napi::BigInt::New(env, Read<uintptr_t>(addr));
+    return Napi::BigInt::New(env, static_cast<uint64_t>(Read<uintptr_t>(addr)));
   } else if (type == "BOOL") {
     return Napi::Boolean::New(env, Read<bool>(addr));
   } else if (type == "DWORD") {

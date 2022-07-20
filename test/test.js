@@ -37,6 +37,7 @@ describe('Process', function () {
 
   const proc = new memorykit.Process(process.pid);
   it('Has getBaseAddr', function () {
+    console.log(proc.baseAddr);
     assert.exists(proc.baseAddr);
   });
 
