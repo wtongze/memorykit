@@ -42,7 +42,7 @@ Process::Process(const Napi::CallbackInfo& info)
 Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  uint64_t addr;
+  uint64_t addr = 0;
   if (info[0].IsBigInt()) {
     bool lossless;
     addr = info[0].As<Napi::BigInt>().Uint64Value(&lossless);
@@ -133,17 +133,12 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
 void Process::WriteMemory(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
-  uint64_t addr;
-  if (info[0].IsBigInt()) {
-    bool lossless;
-    addr = info[0].As<Napi::BigInt>().Uint64Value(&lossless);
-    if (!lossless) {
-      Napi::RangeError::New(env, "Address out of range")
-          .ThrowAsJavaScriptException();
-      return;
-    }
-  } else {
-    addr = info[0].As<Napi::Number>().Uint32Value();
+  bool lossless;
+  uint64_t addr = info[0].As<Napi::BigInt>().Uint64Value(&lossless);
+  if (!lossless) {
+    Napi::RangeError::New(env, "Address out of range")
+        .ThrowAsJavaScriptException();
+    return;
   }
 
   std::string type = info[1].As<Napi::String>().Utf8Value();
