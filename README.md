@@ -1,5 +1,9 @@
 # memorykit
 
+[![Test](https://github.com/wtongze/memorykit/actions/workflows/test.yaml/badge.svg)](https://github.com/wtongze/memorykit/actions/workflows/test.yaml)
+
+[Documentation](https://memorykit.netlify.app)
+
 A cross-platform JavaScript native library for wrangling virtual memory
 
 ```JavaScript

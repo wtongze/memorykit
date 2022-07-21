@@ -1,6 +1,6 @@
 {
   "name": "memorykit",
-  "version": "0.1.0",
+  "version": "0.1.0-alpha1",
   "description": "A cross-platform JavaScript native library for wrangling virtual memory",
   "main": "lib/memorykit.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "test": "run-script-os",
     "test:darwin": "sudo ./node_modules/.bin/mocha",
     "test:default": "mocha",
-    "doc": "jsdoc -c jsdoc.js"
+    "doc": "jsdoc -c jsdoc.js",
+    "types": "tsc"
   },
   "repository": {
     "type": "git",
