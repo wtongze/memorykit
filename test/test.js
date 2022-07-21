@@ -28,6 +28,7 @@ describe('Process', function () {
   it('Create Process by PID', function () {
     const current = new memorykit.Process(process.pid);
     assert.exists(current);
+    current.release();
   });
 
   it("Can't create Process by string", function () {
@@ -42,14 +43,24 @@ describe('Process', function () {
     });
   });
 
-  const proc = new memorykit.Process(process.pid);
   it('Has getBaseAddr', function () {
+    const proc = new memorykit.Process(process.pid);
     assert(proc.baseAddr > -1);
     assert.exists(proc.baseAddr);
+    proc.release();
   });
 
   it('baseAddr has type BigInt', function () {
+    const proc = new memorykit.Process(process.pid);
     assert.isTrue(typeof proc.baseAddr === 'bigint');
+    proc.release();
+  });
+
+  it('Has hasReleased', function () {
+    const proc = new memorykit.Process(process.pid);
+    assert(!proc.hasReleased());
+    proc.release();
+    assert(proc.hasReleased());
   });
 });
 
@@ -65,6 +76,7 @@ describe('INT', function () {
 
         const value = proc.readInt(addr);
         testProc.kill();
+        proc.release();
         if (target === value) {
           done();
         } else {
@@ -90,6 +102,7 @@ describe('INT', function () {
         } else {
           const curr = parseInt(content[1]);
           testProc.kill();
+          proc.release();
           if (curr - 1 === target) {
             done();
           } else {
@@ -115,6 +128,7 @@ describe('STRING', function () {
 
         const value = proc.readString(addr);
         testProc.kill();
+        proc.release();
         if (target === value) {
           done();
         } else {
@@ -142,6 +156,7 @@ describe('STRING', function () {
         } else {
           const curr = content[3];
           testProc.kill();
+          proc.release();
           if (curr === target) {
             done();
           } else {

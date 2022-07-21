@@ -8,6 +8,8 @@ class Process : public Napi::ObjectWrap<Process> {
   Process(const Napi::CallbackInfo& info);
 
   void AquireProcess();
+  void ReleaseProcess(const Napi::CallbackInfo& info);
+  Napi::Value hasReleased(const Napi::CallbackInfo& info);
   Napi::Value GetBaseAddr(const Napi::CallbackInfo& info);
   Napi::Value ReadMemory(const Napi::CallbackInfo& info);
   void WriteMemory(const Napi::CallbackInfo& info);

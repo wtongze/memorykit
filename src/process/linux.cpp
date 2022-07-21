@@ -7,6 +7,8 @@
 
 #include "process.hpp"
 
+void Process::AquireProcess() {}
+
 Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
   Napi::Env env = info.Env();
 
@@ -18,8 +20,6 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
   int64_t baseAddr = std::stol(baseAddrStr, nullptr, 16);
   return Napi::BigInt::New(env, baseAddr);
 }
-
-void Process::AquireProcess() {}
 
 void Process::Read(uint64_t addr, void* target, size_t len) {
   struct iovec local[1];
@@ -51,4 +51,8 @@ void Process::Write(uint64_t addr, void* source, size_t len) {
   if (len != writeLen) {
     throw std::runtime_error("Write length mismatch");
   }
+}
+
+void Process::ReleaseProcess(const Napi::CallbackInfo& info) {
+  pid = -1;
 }

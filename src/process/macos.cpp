@@ -8,7 +8,7 @@ void Process::AquireProcess() {
 
   kern_return = task_for_pid(mach_task_self(), pid, &this->task);
   if (kern_return != KERN_SUCCESS) {
-    throw std::runtime_error("AquireProcess failed");
+    throw std::runtime_error("AquireProcess() failed");
   }
 }
 
@@ -27,7 +27,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo& info) {
                              (vm_region_info_t)&basic_info, &count, &object);
 
   if (kern_return != KERN_SUCCESS) {
-    Napi::TypeError::New(env, "vm_region_64() failed")
+    Napi::Error::New(env, "vm_region_64() failed")
         .ThrowAsJavaScriptException();
     return env.Undefined();
   }
@@ -55,9 +55,24 @@ void Process::Read(uint64_t addr, void* target, size_t len) {
 
 void Process::Write(uint64_t addr, void* source, size_t len) {
   kern_return_t kern_return = 0;
-  kern_return = vm_write(task, addr, (vm_offset_t)source, (mach_msg_type_number_t)len);
+  kern_return =
+      vm_write(task, addr, (vm_offset_t)source, (mach_msg_type_number_t)len);
 
   if (kern_return != KERN_SUCCESS) {
     throw std::runtime_error("vm_write() failed");
   }
+}
+
+void Process::ReleaseProcess(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  kern_return_t kern_return = 0;
+
+  kern_return = mach_port_deallocate(mach_task_self(), this->task);
+  if (kern_return != KERN_SUCCESS) {
+    Napi::Error::New(env, "ReleaseProcess() failed")
+        .ThrowAsJavaScriptException();
+    return;
+  }
+  pid = -1;
+  task = MACH_PORT_NULL;
 }

@@ -3,11 +3,11 @@
 Napi::Object Process::Init(Napi::Env env, Napi::Object exports) {
   Napi::Function func =
       DefineClass(env, "Process",
-                  {
-                      InstanceMethod("getBaseAddr", &Process::GetBaseAddr),
-                      InstanceMethod("readMemory", &Process::ReadMemory),
-                      InstanceMethod("writeMemory", &Process::WriteMemory),
-                  });
+                  {InstanceMethod("getBaseAddr", &Process::GetBaseAddr),
+                   InstanceMethod("readMemory", &Process::ReadMemory),
+                   InstanceMethod("writeMemory", &Process::WriteMemory),
+                   InstanceMethod("release", &Process::ReleaseProcess),
+                   InstanceMethod("hasReleased", &Process::hasReleased)});
 
   Napi::FunctionReference* constructor = new Napi::FunctionReference();
   *constructor = Napi::Persistent(func);
@@ -34,7 +34,7 @@ Process::Process(const Napi::CallbackInfo& info)
   try {
     AquireProcess();
   } catch (std::exception& e) {
-    Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
+    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
     return;
   }
 }
@@ -125,7 +125,7 @@ Napi::Value Process::ReadMemory(const Napi::CallbackInfo& info) {
       return env.Undefined();
     }
   } catch (std::exception& e) {
-    Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
+    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
     return env.Undefined();
   }
 }
@@ -152,7 +152,12 @@ void Process::WriteMemory(const Napi::CallbackInfo& info) {
       Write(addr, (void*)value.c_str(), value.length() + 1);
     }
   } catch (std::exception& e) {
-    Napi::TypeError::New(env, e.what()).ThrowAsJavaScriptException();
+    Napi::Error::New(env, e.what()).ThrowAsJavaScriptException();
     return;
   }
+}
+
+Napi::Value Process::hasReleased(const Napi::CallbackInfo& info) {
+  Napi::Env env = info.Env();
+  return Napi::Boolean::New(env, pid == -1);
 }

@@ -35,7 +35,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo &info)
 
   if (hModuleSnapshot == INVALID_HANDLE_VALUE)
   {
-    Napi::TypeError::New(env, "module snapshot failed")
+    Napi::Error::New(env, "module snapshot failed")
         .ThrowAsJavaScriptException();
     return env.Undefined();
   }
@@ -45,7 +45,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo &info)
   if (!Module32First(hModuleSnapshot, &mEntry))
   {
     CloseHandle(hModuleSnapshot);
-    Napi::TypeError::New(env, "failed to retrieve the first module")
+    Napi::Error::New(env, "failed to retrieve the first module")
         .ThrowAsJavaScriptException();
     return env.Undefined();
   }
@@ -61,7 +61,7 @@ Napi::Value Process::GetBaseAddr(const Napi::CallbackInfo &info)
   } while (Module32Next(hModuleSnapshot, &mEntry));
 
   CloseHandle(hModuleSnapshot);
-  Napi::TypeError::New(env, "module not found")
+  Napi::Error::New(env, "module not found")
       .ThrowAsJavaScriptException();
   return env.Undefined();
 }
@@ -80,4 +80,9 @@ void Process::Write(uint64_t addr, void *source, size_t len) {
   if (len != writeLen) {
     throw std::runtime_error("Write length mismatch");
   }
+}
+
+void Process::ReleaseProcess(const Napi::CallbackInfo& info) {
+  pid = -1;
+  CloseHandle(this->handle);
 }
