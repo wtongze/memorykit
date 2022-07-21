@@ -1,6 +1,6 @@
 {
   "name": "memorykit",
-  "version": "0.1.0-alpha2",
+  "version": "0.1.0-alpha3",
   "description": "A cross-platform JavaScript native library for wrangling virtual memory",
   "main": "lib/memorykit.js",
   "scripts": {
