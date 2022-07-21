@@ -144,8 +144,41 @@ void Process::WriteMemory(const Napi::CallbackInfo& info) {
   }
 
   try {
-    if (type == "INT") {
+    if (type == "BYTE") {
+      uint8_t value = info[2].As<Napi::Number>().Int32Value();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "INT") {
       int value = info[2].As<Napi::Number>().Int32Value();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "INT32") {
+      int32_t value = info[2].As<Napi::Number>().Int32Value();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "UINT32" || type == "DWORD") {
+      uint32_t value = info[2].As<Napi::Number>().Uint32Value();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "INT64") {
+      int64_t value = info[2].As<Napi::BigInt>().Int64Value(NULL);
+      Write(addr, &value, sizeof(value));
+    } else if (type == "UINT64") {
+      uint64_t value = info[2].As<Napi::BigInt>().Uint64Value(NULL);
+      Write(addr, &value, sizeof(value));
+    } else if (type == "SHORT") {
+      short value = info[2].As<Napi::Number>().Int32Value();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "LONG") {
+      long value = info[2].As<Napi::BigInt>().Int64Value(NULL);
+      Write(addr, &value, sizeof(value));
+    } else if (type == "FLOAT") {
+      float value = info[2].As<Napi::Number>().FloatValue();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "DOUBLE") {
+      double value = info[2].As<Napi::Number>().DoubleValue();
+      Write(addr, &value, sizeof(value));
+    } else if (type == "POINTER") {
+      uintptr_t value = info[2].As<Napi::BigInt>().Uint64Value(NULL);
+      Write(addr, &value, sizeof(value));
+    } else if (type == "BOOL") {
+      bool value = info[2].As<Napi::Boolean>().Value();
       Write(addr, &value, sizeof(value));
     } else if (type == "STRING") {
       std::string value = info[2].As<Napi::String>().Utf8Value();
