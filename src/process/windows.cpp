@@ -84,5 +84,5 @@ void Process::Write(uint64_t addr, void *source, size_t len) {
 
 void Process::ReleaseProcess(const Napi::CallbackInfo& info) {
   pid = -1;
-  CloseHandle(this->handle);
+  CloseHandle((HANDLE)this->handle);
 }
