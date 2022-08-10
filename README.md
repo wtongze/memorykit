@@ -38,3 +38,6 @@ npm i memorykit
 - MacOS*
 
 **Due to operating system policy, wrangling memory of a process that uses hardened runtime is not supported and you must run your code as `root`.*
+
+## Special Thanks
+<https://github.com/Rob--/memoryjs> for providing an implementation example on Windows.
